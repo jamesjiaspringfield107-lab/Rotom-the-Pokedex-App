@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function PokedexHomeScreen() {
+export default function MoreSettingsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Pokedex Home Screen WIP</Text>
+      <Text style={styles.text}>More/Settings Screen WIP</Text>
     </View>
   );
 }
