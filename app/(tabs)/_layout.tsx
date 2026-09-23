@@ -1,6 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context"; //Hooks
 
 //inline css test
 export default function Layout() {
@@ -9,10 +9,21 @@ export default function Layout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#f8b009",
+        tabBarInactiveTintColor: "#000000",
+        tabBarActiveBackgroundColor: "#dcd5d5",
         headerShown: true,
+
+        tabBarItemStyle: {
+          borderRadius: 10,
+          marginHorizontal: 5,
+          overflow: "hidden", //since borderRadius doesnt work as intented, using overfow to force the borderRadius to show its shape
+          marginVertical: 3,
+          paddingBottom: 2,
+        },
+
         tabBarStyle: {
-          backgroundColor: "#fff",
-          paddingBottom: 5 + insets.bottom,
+          backgroundColor: "#fbf7f7",
+          paddingBottom: 0 + insets.bottom,
           height: 60 + insets.bottom,
         },
       }}
@@ -22,7 +33,7 @@ export default function Layout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={20} color={color} />
+            <Ionicons name="home" size={26} color={color} />
           ),
         }}
       />
@@ -31,7 +42,7 @@ export default function Layout() {
         options={{
           title: "Pokedex",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="pokeball" size={20} color={color} />
+            <MaterialCommunityIcons name="pokeball" size={26} color={color} />
           ),
         }}
       />
@@ -40,7 +51,7 @@ export default function Layout() {
         options={{
           title: "Team",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="people" size={20} color={color} />
+            <Ionicons name="people" size={26} color={color} />
           ),
         }}
       />
@@ -49,7 +60,7 @@ export default function Layout() {
         options={{
           title: "PokeOS",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="book" size={20} color={color} />
+            <MaterialCommunityIcons name="pokemon-go" size={26} color={color} />
           ),
         }}
       />
@@ -58,7 +69,7 @@ export default function Layout() {
         options={{
           title: "More",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="menu" size={20} color={color} />
+            <MaterialCommunityIcons name="menu" size={26} color={color} />
           ),
         }}
       />
