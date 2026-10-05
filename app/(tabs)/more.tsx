@@ -12,6 +12,12 @@ export default function MoreScreen() {
   const handleAlert = (title: string) => {
     Alert.alert("Work in Progress", `${title} button is still in WIP`);
   };
+  const handleAlert_1 = (title: string) => {
+    Alert.alert(
+      "About Me",
+      "This pokedex app was created by: \n\nName: Marceliano Manalo \nProgram & Section: BSCS-3A \n\nEmail: jamesjiaspringfield107@gmail.com \nUsername: jamesjiaspringfield107-lab",
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -58,7 +64,7 @@ export default function MoreScreen() {
         {/* About Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleAlert("About")}
+          onPress={() => handleAlert_1("About")}
         >
           <View style={styles.buttonContent}>
             <Ionicons

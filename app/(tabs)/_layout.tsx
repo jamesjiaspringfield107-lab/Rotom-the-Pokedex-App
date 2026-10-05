@@ -56,15 +56,6 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="pokeos"
-        options={{
-          title: "PokeOS",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="pokemon-go" size={26} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="more"
         options={{
           title: "More",
