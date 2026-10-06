@@ -13,12 +13,17 @@ import { getPokepediaData } from "../../service/pokemonAPI";
 import { PokemonData } from "../../types/pokemon";
 
 export default function PokepediaScreen() {
+  // ==========================================
+  // STEP 1: State Management
+  // ==========================================
   const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Fetch function
+  // ==========================================
+  // STEP 2: API & Data Fetching
+  // ==========================================
   const loadData = async () => {
     setLoading(true);
     setErrorMessage(null);
@@ -32,22 +37,72 @@ export default function PokepediaScreen() {
     setLoading(false);
   };
 
-  // Run once when screen opens
+  // Run automatically when the screen opens
   useEffect(() => {
     loadData();
   }, []);
 
-  // Filter list in real-time based on searchQuery
+  // ==========================================
+  // STEP 3: Helper Functions & Computed Data
+  // ==========================================
+  // Returns hex color based on Pokémon element type
+  const getTypeColor = (type: string): string => {
+    switch (type.toLowerCase()) {
+      case "fire":
+        return "#ff421d";
+      case "water":
+        return "#2b9aff";
+      case "grass":
+        return "#63bc5d";
+      case "electric":
+        return "#fbf041";
+      case "poison":
+        return "#9553cd";
+      case "bug":
+        return "#9fa426";
+      case "normal":
+        return "#a0a29f";
+      case "flying":
+        return "#89a2f5";
+      case "ground":
+        return "#d3b158";
+      case "rock":
+        return "#b7a058";
+      case "ice":
+        return "#72d7f4";
+      case "dragon":
+        return "#7662e7";
+      case "psychic":
+        return "#ea447e";
+      case "fighting":
+        return "#9a3d24";
+      case "ghost":
+        return "#6262b4";
+      case "dark":
+        return "#4a3c3c";
+      case "steel":
+        return "#bdbfbf";
+      case "fairy":
+        return "#f4b1f4";
+      default:
+        return "#8e8e93";
+    }
+  };
+
+  // Filter list in real-time based on search input
   const filteredPokemon = pokemonList.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  // ==========================================
+  // STEP 4: Render UI Components
+  // ==========================================
   return (
     <View style={styles.container}>
-      {/* Fixed Search Bar (Outside of ScrollView) */}
+      {/* 4.1 Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
-          placeholder="Search Gen 1 Pokémon..."
+          placeholder="Search a Pokémon..."
           placeholderTextColor="#888888"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -55,9 +110,9 @@ export default function PokepediaScreen() {
         />
       </View>
 
-      {/* Scrollable Content Area */}
+      {/* 4.2 Main Scrollable Content */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Conditional Rendering: Loading vs Error vs Data Grid */}
+        {/* Loading Spinner */}
         {loading ? (
           <ActivityIndicator
             size="large"
@@ -65,24 +120,46 @@ export default function PokepediaScreen() {
             style={{ marginTop: 40 }}
           />
         ) : errorMessage ? (
+          /* Error State */
           <View style={styles.errorBox}>
-            <Text style={styles.errorText}>⚠️️ {errorMessage}</Text>
+            <Text style={styles.errorText}>⚠ {errorMessage}</Text>
             <TouchableOpacity style={styles.retryButton} onPress={loadData}>
               <Text style={styles.retryText}>Try Again</Text>
             </TouchableOpacity>
           </View>
         ) : (
+          /* Pokémon Grid */
           <View style={styles.grid}>
             {filteredPokemon.map((item) => (
               <View key={item.id} style={styles.card}>
+                {/* ID Tag */}
                 <Text style={styles.cardId}>
                   #{item.id.toString().padStart(3, "0")}
                 </Text>
+
+                {/* Pokémon Image */}
                 <Image
                   source={{ uri: item.imageUrl }}
                   style={styles.cardImage}
                 />
+
+                {/* Pokémon Name */}
                 <Text style={styles.cardName}>{item.name}</Text>
+
+                {/* Pokémon Type Badges */}
+                <View style={styles.typesContainer}>
+                  {item.types?.map((type) => (
+                    <View
+                      key={type}
+                      style={[
+                        styles.typeBadge,
+                        { backgroundColor: getTypeColor(type) },
+                      ]}
+                    >
+                      <Text style={styles.typeText}>{type}</Text>
+                    </View>
+                  ))}
+                </View>
               </View>
             ))}
           </View>
@@ -92,6 +169,9 @@ export default function PokepediaScreen() {
   );
 }
 
+// ==========================================
+// STEP 5: Stylesheet Definition
+// ==========================================
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,6 +201,13 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 20,
   },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 16,
+  },
   card: {
     width: "48%",
     backgroundColor: "#f2f2f7",
@@ -135,7 +222,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333333",
     backgroundColor: "#e2dfdf",
-    borderRadius: 3,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
   cardImage: {
     width: 96,
@@ -146,15 +235,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333333",
-    marginTop: 8,
+    marginTop: 4,
     textTransform: "capitalize",
   },
-  grid: {
+  typesContainer: {
     flexDirection: "row",
+    gap: 6,
+    marginTop: 8,
     flexWrap: "wrap",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 16,
+    justifyContent: "center",
+  },
+  typeBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  typeText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "bold",
+    textTransform: "capitalize",
   },
   errorBox: {
     alignItems: "center",

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Rotom the Pokédex App",
-    "slug": "pokedex",
+    "name": "Rotom-dex",
+    "slug": "dex-rotom",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/rotom-icon.png",

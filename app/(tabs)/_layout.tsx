@@ -8,15 +8,22 @@ export default function Layout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#f8b009",
         tabBarInactiveTintColor: "#000000",
         tabBarActiveBackgroundColor: "#dcd5d5",
         headerShown: true,
+        headerTintColor: "#000000",
+
+        headerStyle: {
+          backgroundColor: "#fbf7f7",
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
 
         tabBarItemStyle: {
           borderRadius: 10,
           marginHorizontal: 5,
-          overflow: "hidden", //since borderRadius doesnt work as intented, using overfow to force the borderRadius to show its shape
+          overflow: "hidden",
           marginVertical: 3,
           paddingBottom: 2,
         },
@@ -32,6 +39,7 @@ export default function Layout() {
         name="index"
         options={{
           title: "Home",
+          tabBarActiveTintColor: "#f87109",
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={26} color={color} />
           ),
@@ -41,6 +49,7 @@ export default function Layout() {
         name="pokepedia"
         options={{
           title: "Pokedex",
+          tabBarActiveTintColor: "#f80909",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="pokeball" size={26} color={color} />
           ),
@@ -50,6 +59,7 @@ export default function Layout() {
         name="team"
         options={{
           title: "Team",
+          tabBarActiveTintColor: "#079e1b",
           tabBarIcon: ({ color }) => (
             <Ionicons name="people" size={26} color={color} />
           ),
@@ -59,6 +69,7 @@ export default function Layout() {
         name="more"
         options={{
           title: "More",
+          tabBarActiveTintColor: "#1909f8",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="menu" size={26} color={color} />
           ),
