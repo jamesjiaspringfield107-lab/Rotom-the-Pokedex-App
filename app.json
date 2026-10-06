@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "pokedex",
+    "name": "Rotom the Pokédex App",
     "slug": "pokedex",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/rotom-icon.png",
     "scheme": "pokedex",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -12,26 +12,26 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#ff2400",
+        "foregroundImage": "./assets/images/rotom-icon.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/rotom-icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/rotom-icon.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#ff2400",
+          "imageWidth": 200,
+          "imageHeight": 200
         }
       ],
       "expo-status-bar"

@@ -14,6 +14,7 @@ import { PokemonData } from "../../types/pokemon";
 
 export default function PokepediaScreen() {
   const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -36,45 +37,58 @@ export default function PokepediaScreen() {
     loadData();
   }, []);
 
+  // Filter list in real-time based on searchQuery
+  const filteredPokemon = pokemonList.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
-    <ScrollView style={styles.container}>
-      {/* Search Bar */}
+    <View style={styles.container}>
+      {/* Fixed Search Bar (Outside of ScrollView) */}
       <View style={styles.searchContainer}>
         <TextInput
           placeholder="Search Gen 1 Pokémon..."
           placeholderTextColor="#888888"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
           style={styles.searchInput}
         />
       </View>
 
-      {/* Conditional Rendering: Loading vs Error vs Data Grid */}
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color="#333333"
-          style={{ marginTop: 40 }}
-        />
-      ) : errorMessage ? (
-        <View style={styles.errorBox}>
-          <Text style={styles.errorText}>⚠️ {errorMessage}</Text>
-          <TouchableOpacity style={styles.retryButton} onPress={loadData}>
-            <Text style={styles.retryText}>Try Again</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={styles.grid}>
-          {pokemonList.map((item) => (
-            <View key={item.id} style={styles.card}>
-              <Text style={styles.cardId}>
-                #{item.id.toString().padStart(3, "0")}
-              </Text>
-              <Image source={{ uri: item.imageUrl }} style={styles.cardImage} />
-              <Text style={styles.cardName}>{item.name}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-    </ScrollView>
+      {/* Scrollable Content Area */}
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Conditional Rendering: Loading vs Error vs Data Grid */}
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#333333"
+            style={{ marginTop: 40 }}
+          />
+        ) : errorMessage ? (
+          <View style={styles.errorBox}>
+            <Text style={styles.errorText}>⚠️️ {errorMessage}</Text>
+            <TouchableOpacity style={styles.retryButton} onPress={loadData}>
+              <Text style={styles.retryText}>Try Again</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.grid}>
+            {filteredPokemon.map((item) => (
+              <View key={item.id} style={styles.card}>
+                <Text style={styles.cardId}>
+                  #{item.id.toString().padStart(3, "0")}
+                </Text>
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.cardImage}
+                />
+                <Text style={styles.cardName}>{item.name}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -88,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 16,
     marginHorizontal: 16,
-    marginBottom: 20,
+    marginBottom: 10,
     borderWidth: 1.5,
     borderColor: "#e5e5ea",
     shadowColor: "#000000",
@@ -104,6 +118,9 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontWeight: "500",
   },
+  scrollContent: {
+    paddingBottom: 20,
+  },
   card: {
     width: "48%",
     backgroundColor: "#f2f2f7",
@@ -117,6 +134,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     color: "#333333",
+    backgroundColor: "#e2dfdf",
+    borderRadius: 3,
   },
   cardImage: {
     width: 96,
@@ -128,7 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333333",
     marginTop: 8,
-    textTransform: "capitalize", // Capitalizes API names like "bulbasaur" -> "Bulbasaur"
+    textTransform: "capitalize",
   },
   grid: {
     flexDirection: "row",
@@ -137,7 +156,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 16,
   },
-  // Extra helper styles for error state
   errorBox: {
     alignItems: "center",
     justifyContent: "center",
