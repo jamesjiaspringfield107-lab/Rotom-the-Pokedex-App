@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { getPokepediaData } from "../../service/pokemonAPI";
 import { PokemonData } from "../../types/pokemon";
+const rotomErrorImage = require("../../assets/images/Rotom_Error_WIP.jpg");
 
 export default function PokepediaScreen() {
   // ==========================================
@@ -138,6 +139,11 @@ export default function PokepediaScreen() {
         />
       ) : errorMessage ? (
         <View style={styles.errorBox}>
+          <Image
+            source={rotomErrorImage}
+            style={styles.errorImage}
+            resizeMode="contain"
+          />
           <Text style={styles.errorText}>⚠ {errorMessage}</Text>
           <TouchableOpacity style={styles.retryButton} onPress={loadData}>
             <Text style={styles.retryText}>Try Again</Text>
@@ -269,5 +275,10 @@ const styles = StyleSheet.create({
   retryText: {
     color: "#ffffff",
     fontWeight: "bold",
+  },
+  errorImage: {
+    width: 220,
+    height: 180,
+    marginBottom: 12,
   },
 });

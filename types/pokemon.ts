@@ -1,4 +1,4 @@
-// Blueprint for the clean Pokemon object used in your UI cards
+// Blueprint for the clean Pokemon object used in the UI cards
 export interface PokemonData {
   id: number;
   name: string;
