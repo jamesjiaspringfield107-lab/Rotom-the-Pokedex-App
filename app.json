@@ -6,14 +6,14 @@
     "orientation": "portrait",
     "icon": "./assets/images/rotom-icon.png",
     "scheme": "pokedex",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#ff2400",
-        "foregroundImage": "./assets/images/rotom-icon.png"
+        "foregroundImage": "./assets/images/rotom-icon.png",
+        "backgroundColor": "#FA8072"
       },
       "predictiveBackGestureEnabled": false
     },
@@ -29,9 +29,7 @@
         {
           "image": "./assets/images/rotom-icon.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ff2400",
-          "imageWidth": 200,
-          "imageHeight": 200
+          "backgroundColor": "#FA8072"
         }
       ],
       "expo-status-bar"

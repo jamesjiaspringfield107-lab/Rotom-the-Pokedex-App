@@ -1,72 +1,35 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import {
   Alert,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { PokemonData } from "../../types/pokemon";
-
-interface TeamSlot {
-  slotId: number;
-  pokemon: PokemonData | null;
-}
 
 export default function TeamScreen() {
   const router = useRouter();
 
-  // 1. Initialize 6 empty team slots
-  const [team, setTeam] = useState<TeamSlot[]>([
-    { slotId: 1, pokemon: null },
-    { slotId: 2, pokemon: null },
-    { slotId: 3, pokemon: null },
-    { slotId: 4, pokemon: null },
-    { slotId: 5, pokemon: null },
-    { slotId: 6, pokemon: null },
-  ]);
-
-  // 2. Delete Pokémon from slot confirmation
-  const handleDeletePokemon = (slotId: number) => {
-    Alert.alert(
-      "Remove Pokémon",
-      `Are you sure you want to remove the Pokémon from Team Slot ${slotId}?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => {
-            setTeam((prevTeam) =>
-              prevTeam.map((slot) =>
-                slot.slotId === slotId ? { ...slot, pokemon: null } : slot,
-              ),
-            );
-          },
-        },
-      ],
-    );
-  };
-
-  // 3. WIP placeholders for Add Slot and Share
+  // Simple alert handler for WIP prototype buttons
   const handleWipAction = (actionName: string) => {
-    Alert.alert("WIP Placeholder", `${actionName} button is still in WIP`);
+    Alert.alert(
+      "WIP Placeholder",
+      `${actionName} feature is under development!`,
+    );
   };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* ========================================== */}
-        {/* TOP BUTTONS: Collection & Favorite (Stack Nav) */}
+        {/* TOP BUTTONS: Collection & Favorite */}
         {/* ========================================== */}
         <View style={styles.topNavContainer}>
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => router.push("../collection")}
+            onPress={() => router.push("/collection")}
           >
             <Ionicons name="albums-outline" size={18} color="#333" />
             <Text style={styles.navButtonText}>Collection</Text>
@@ -74,7 +37,7 @@ export default function TeamScreen() {
 
           <TouchableOpacity
             style={styles.navButton}
-            onPress={() => router.push("../favorite")}
+            onPress={() => router.push("/favorite")}
           >
             <Ionicons name="heart-outline" size={18} color="#ff3b30" />
             <Text style={styles.navButtonText}>Favorite</Text>
@@ -82,7 +45,7 @@ export default function TeamScreen() {
         </View>
 
         {/* ========================================== */}
-        {/* MY TEAM BOX: 6 Slots Grid */}
+        {/* MY TEAM BOX: 6 Empty Slots Grid */}
         {/* ========================================== */}
         <View style={styles.teamContainer}>
           <View style={styles.teamHeader}>
@@ -92,47 +55,28 @@ export default function TeamScreen() {
 
           {/* 2-Column Grid */}
           <View style={styles.gridContainer}>
-            {team.map((slot) => (
-              <View key={slot.slotId} style={styles.slotCard}>
-                <Text style={styles.slotLabel}>Team {slot.slotId}</Text>
-
-                {slot.pokemon ? (
-                  /* Occupied Slot View */
-                  <View style={styles.occupiedSlot}>
-                    <Image
-                      source={{ uri: slot.pokemon.imageUrl }}
-                      style={styles.pokemonImage}
-                    />
-                    <Text style={styles.pokemonName}>{slot.pokemon.name}</Text>
-
-                    <TouchableOpacity
-                      style={styles.deleteButton}
-                      onPress={() => handleDeletePokemon(slot.slotId)}
-                    >
-                      <Ionicons name="trash-outline" size={12} color="#fff" />
-                      <Text style={styles.deleteText}>Delete</Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  /* Empty Slot View */
-                  <TouchableOpacity
-                    style={styles.emptySlot}
-                    onPress={() => router.push("/pokepedia")}
-                  >
-                    <Ionicons
-                      name="add-circle-outline"
-                      size={32}
-                      color="#8e8e93"
-                    />
-                    <Text style={styles.addText}>Pick Pokémon</Text>
-                  </TouchableOpacity>
-                )}
+            {[1, 2, 3, 4, 5, 6].map((slotNum) => (
+              <View key={slotNum} style={styles.slotCard}>
+                <Text style={styles.slotLabel}>Team {slotNum}</Text>
+                <TouchableOpacity
+                  style={styles.emptySlot}
+                  onPress={() =>
+                    handleWipAction(`Pick Pokémon for Slot ${slotNum}`)
+                  }
+                >
+                  <Ionicons
+                    name="add-circle-outline"
+                    size={32}
+                    color="#8e8e93"
+                  />
+                  <Text style={styles.addText}>Pick Pokémon</Text>
+                </TouchableOpacity>
               </View>
             ))}
           </View>
 
           {/* ========================================== */}
-          {/* ACTION BUTTONS: Add Slot & Share (WIP) */}
+          {/* ACTION BUTTONS: Add Slot & Share */}
           {/* ========================================== */}
           <View style={styles.actionButtonsRow}>
             <TouchableOpacity
@@ -241,36 +185,6 @@ const styles = StyleSheet.create({
     color: "#8e8e93",
     marginTop: 4,
     fontWeight: "500",
-  },
-  occupiedSlot: {
-    alignItems: "center",
-    width: "100%",
-  },
-  pokemonImage: {
-    width: 56,
-    height: 56,
-  },
-  pokemonName: {
-    fontSize: 13,
-    fontWeight: "bold",
-    color: "#333333",
-    textTransform: "capitalize",
-    marginVertical: 2,
-  },
-  deleteButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ff3b30",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    gap: 4,
-    marginTop: 2,
-  },
-  deleteText: {
-    color: "#ffffff",
-    fontSize: 10,
-    fontWeight: "bold",
   },
   actionButtonsRow: {
     flexDirection: "row",
