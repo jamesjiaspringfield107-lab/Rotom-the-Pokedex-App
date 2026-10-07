@@ -3,6 +3,7 @@ export interface PokemonData {
   id: number;
   name: string;
   imageUrl: string;
+  types: string[];
 }
 
 // Blueprint for raw list items returned directly from PokéAPI
