@@ -55,7 +55,7 @@ export default function PokepediaScreen() {
       case "grass":
         return "#63bc5d";
       case "electric":
-        return "#fbf041";
+        return "#e3d841";
       case "poison":
         return "#9553cd";
       case "bug":
@@ -85,7 +85,7 @@ export default function PokepediaScreen() {
       case "fairy":
         return "#f4b1f4";
       default:
-        return "#8e8e93";
+        return "#8e8e93ee";
     }
   };
 
@@ -116,7 +116,7 @@ export default function PokepediaScreen() {
         {loading ? (
           <ActivityIndicator
             size="large"
-            color="#333333"
+            color="#ff0000"
             style={{ marginTop: 40 }}
           />
         ) : errorMessage ? (
