@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -37,7 +37,6 @@ export default function PokepediaScreen() {
     setLoading(false);
   };
 
-  // Run automatically when the screen opens
   useEffect(() => {
     loadData();
   }, []);
@@ -45,7 +44,6 @@ export default function PokepediaScreen() {
   // ==========================================
   // STEP 3: Helper Functions & Computed Data
   // ==========================================
-  // Returns hex color based on Pokémon element type
   const getTypeColor = (type: string): string => {
     switch (type.toLowerCase()) {
       case "fire":
@@ -89,9 +87,30 @@ export default function PokepediaScreen() {
     }
   };
 
-  // Filter list in real-time based on search input
   const filteredPokemon = pokemonList.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  // Render individual Pokémon card item
+  const renderPokemonCard = ({ item }: { item: PokemonData }) => (
+    <View style={styles.card}>
+      <Text style={styles.cardId}>#{item.id.toString().padStart(3, "0")}</Text>
+
+      <Image source={{ uri: item.imageUrl }} style={styles.cardImage} />
+
+      <Text style={styles.cardName}>{item.name}</Text>
+
+      <View style={styles.typesContainer}>
+        {item.types?.map((type) => (
+          <View
+            key={type}
+            style={[styles.typeBadge, { backgroundColor: getTypeColor(type) }]}
+          >
+            <Text style={styles.typeText}>{type}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 
   // ==========================================
@@ -99,7 +118,7 @@ export default function PokepediaScreen() {
   // ==========================================
   return (
     <View style={styles.container}>
-      {/* 4.1 Search Bar */}
+      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
           placeholder="Search a Pokémon..."
@@ -110,61 +129,34 @@ export default function PokepediaScreen() {
         />
       </View>
 
-      {/* 4.2 Main Scrollable Content */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Loading Spinner */}
-        {loading ? (
-          <ActivityIndicator
-            size="large"
-            color="#ff0000"
-            style={{ marginTop: 40 }}
-          />
-        ) : errorMessage ? (
-          /* Error State */
-          <View style={styles.errorBox}>
-            <Text style={styles.errorText}>⚠ {errorMessage}</Text>
-            <TouchableOpacity style={styles.retryButton} onPress={loadData}>
-              <Text style={styles.retryText}>Try Again</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          /* Pokémon Grid */
-          <View style={styles.grid}>
-            {filteredPokemon.map((item) => (
-              <View key={item.id} style={styles.card}>
-                {/* ID Tag */}
-                <Text style={styles.cardId}>
-                  #{item.id.toString().padStart(3, "0")}
-                </Text>
-
-                {/* Pokémon Image */}
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.cardImage}
-                />
-
-                {/* Pokémon Name */}
-                <Text style={styles.cardName}>{item.name}</Text>
-
-                {/* Pokémon Type Badges */}
-                <View style={styles.typesContainer}>
-                  {item.types?.map((type) => (
-                    <View
-                      key={type}
-                      style={[
-                        styles.typeBadge,
-                        { backgroundColor: getTypeColor(type) },
-                      ]}
-                    >
-                      <Text style={styles.typeText}>{type}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-      </ScrollView>
+      {/* Main FlatList Lazy-Loaded Content */}
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color="#ff0000"
+          style={{ marginTop: 40 }}
+        />
+      ) : errorMessage ? (
+        <View style={styles.errorBox}>
+          <Text style={styles.errorText}>⚠ {errorMessage}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={loadData}>
+            <Text style={styles.retryText}>Try Again</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <FlatList
+          data={filteredPokemon}
+          renderItem={renderPokemonCard}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapper}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={5}
+        />
+      )}
     </View>
   );
 }
@@ -198,15 +190,12 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontWeight: "500",
   },
-  scrollContent: {
+  listContent: {
+    paddingHorizontal: 16,
     paddingBottom: 20,
   },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+  columnWrapper: {
     justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 16,
   },
   card: {
     width: "48%",
