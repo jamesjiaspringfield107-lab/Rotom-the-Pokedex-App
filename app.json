@@ -15,7 +15,8 @@
         "foregroundImage": "./assets/images/rotom-icon.png",
         "backgroundColor": "#FA8072"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jamesjiaspringfield107_lab.dexrotom"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c7f62abc-0ee6-4c70-a860-021c8928d979"
+      }
     }
   }
 }
