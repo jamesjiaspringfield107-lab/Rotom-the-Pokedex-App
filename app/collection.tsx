@@ -7,6 +7,7 @@ export default function CollectionScreen() {
       <Text style={styles.subtitle}>
         Your saved Pokémon collection will appear here.
       </Text>
+      <Text style={styles.subtitle}>Currently WIP</Text>
     </View>
   );
 }

@@ -74,27 +74,26 @@ export default function TeamScreen() {
               </View>
             ))}
           </View>
+        </View>
+        {/* ========================================== */}
+        {/* ACTION BUTTONS: Add Slot & Share -- WIP */}
+        {/* ========================================== */}
+        <View style={styles.actionButtonsRow}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => handleWipAction("Add Slot")}
+          >
+            <Ionicons name="add-outline" size={18} color="#fff" />
+            <Text style={styles.actionButtonText}>Add Slot</Text>
+          </TouchableOpacity>
 
-          {/* ========================================== */}
-          {/* ACTION BUTTONS: Add Slot & Share */}
-          {/* ========================================== */}
-          <View style={styles.actionButtonsRow}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleWipAction("Add Slot")}
-            >
-              <Ionicons name="add-outline" size={18} color="#fff" />
-              <Text style={styles.actionButtonText}>Add Slot</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.actionButton, styles.shareButton]}
-              onPress={() => handleWipAction("Share Team")}
-            >
-              <Ionicons name="share-social-outline" size={18} color="#fff" />
-              <Text style={styles.actionButtonText}>Share</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[styles.actionButton, styles.shareButton]}
+            onPress={() => handleWipAction("Share Team")}
+          >
+            <Ionicons name="share-social-outline" size={18} color="#fff" />
+            <Text style={styles.actionButtonText}>Share</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

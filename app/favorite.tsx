@@ -7,6 +7,7 @@ export default function FavoriteScreen() {
       <Text style={styles.subtitle}>
         Your favorite Pokémon will appear here.
       </Text>
+      <Text style={styles.subtitle}>Currently WIP</Text>
     </View>
   );
 }
