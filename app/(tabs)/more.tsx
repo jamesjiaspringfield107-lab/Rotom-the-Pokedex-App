@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router"; // 1. Import useRouter
 import {
   Alert,
   ScrollView,
@@ -9,14 +10,10 @@ import {
 } from "react-native";
 
 export default function MoreScreen() {
+  const router = useRouter(); // 2. Initialize router
+
   const handleAlert = (title: string) => {
     Alert.alert("Work in Progress", `${title} button is still in WIP`);
-  };
-  const handleAlert_1 = (title: string) => {
-    Alert.alert(
-      "About Me",
-      "This pokedex app was created by: \n\nName: Marceliano Manalo \nProgram & Section: BSCS-3A \n\nEmail: jamesjiaspringfield107@gmail.com \nUsername: jamesjiaspringfield107-lab",
-    );
   };
 
   return (
@@ -41,7 +38,6 @@ export default function MoreScreen() {
             />
             <Text style={styles.buttonText}>Settings</Text>
           </View>
-          <Ionicons name="chevron-forward" size={18} color="#aaa" />
         </TouchableOpacity>
 
         {/* Appearance Button */}
@@ -51,20 +47,19 @@ export default function MoreScreen() {
         >
           <View style={styles.buttonContent}>
             <Ionicons
-              name="color-palette-outline"
+              name="sparkles-outline"
               size={20}
               color="#333"
               style={styles.icon}
             />
             <Text style={styles.buttonText}>Appearance</Text>
           </View>
-          <Ionicons name="chevron-forward" size={18} color="#aaa" />
         </TouchableOpacity>
 
-        {/* About Button */}
+        {/* About Button - Now navigates to /about */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleAlert_1("About")}
+          onPress={() => router.push("/about")} // 3. Navigate to About screen
         >
           <View style={styles.buttonContent}>
             <Ionicons
@@ -75,7 +70,6 @@ export default function MoreScreen() {
             />
             <Text style={styles.buttonText}>About</Text>
           </View>
-          <Ionicons name="chevron-forward" size={18} color="#aaa" />
         </TouchableOpacity>
       </View>
     </ScrollView>

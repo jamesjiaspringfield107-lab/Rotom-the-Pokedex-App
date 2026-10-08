@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import { getPokepediaData } from "../../service/pokemonAPI";
 import { PokemonData } from "../../types/pokemon";
+
 const rotomErrorImage = require("../../assets/images/Rotom_Error_WIP.jpg");
 
 export default function PokepediaScreen() {
   // ==========================================
-  // STEP 1: State Management
+  // State Management
   // ==========================================
   const [pokemonList, setPokemonList] = useState<PokemonData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -23,7 +24,7 @@ export default function PokepediaScreen() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // ==========================================
-  // STEP 2: API & Data Fetching
+  // API & Data Fetching
   // ==========================================
   const loadData = async () => {
     setLoading(true);
@@ -43,7 +44,7 @@ export default function PokepediaScreen() {
   }, []);
 
   // ==========================================
-  // STEP 3: Helper Functions & Computed Data
+  // Helper Functions & Computed Data
   // ==========================================
   const getTypeColor = (type: string): string => {
     switch (type.toLowerCase()) {
@@ -88,11 +89,16 @@ export default function PokepediaScreen() {
     }
   };
 
+  // ==========================================
+  // Search Filtering Logic
+  // ==========================================
   const filteredPokemon = pokemonList.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // Render individual Pokémon card item
+  // ==========================================
+  // Rendering Individual Pokémon Card Component
+  // ==========================================
   const renderPokemonCard = ({ item }: { item: PokemonData }) => (
     <View style={styles.card}>
       <Text style={styles.cardId}>#{item.id.toString().padStart(3, "0")}</Text>
@@ -115,7 +121,7 @@ export default function PokepediaScreen() {
   );
 
   // ==========================================
-  // STEP 4: Render UI Components
+  // Render UI Components
   // ==========================================
   return (
     <View style={styles.container}>
